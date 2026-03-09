@@ -1,0 +1,10 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Simple vibration/buzz icon for the foreground service notification -->
+    <path
+        android:fillColor="#E1FF01"
+        android:pathData="M18,10 L14,10 L14,6 L10,6 L10,10 L6,10 L6,14 L10,14 L10,18 L14,18 L14,14 L18,14 Z" />
+</vector>

@@ -1,0 +1,9 @@
+<resources>
+    <!-- Base BuzzMe theme — edge-to-edge, pure black -->
+    <style name="Theme.BuzzMe" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/black</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>

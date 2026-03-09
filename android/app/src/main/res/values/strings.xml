@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">BuzzMe</string>
+    <string name="connection_status_connected">Connected</string>
+    <string name="connection_status_disconnected">Disconnected</string>
+    <string name="buzz_button_label">BUZZ</string>
+    <string name="notification_channel_name">BuzzMe Connection</string>
+    <string name="notification_connected">Connected — ready to buzz</string>
+</resources>
