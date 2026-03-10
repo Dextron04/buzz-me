@@ -1,0 +1,43 @@
+# ── Dependencies ──────────────────────────────────────────
+node_modules/
+
+# ── Expo ──────────────────────────────────────────────────
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+.metro-health-check*
+
+# ── Generated native folders (via expo prebuild) ──────────
+/android
+/ios
+
+# ── Logs ──────────────────────────────────────────────────
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+nohup.out
+
+# ── Environment ───────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# ── Native signing and credentials ───────────────────────
+*.jks
+*.keystore
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# ── TypeScript ────────────────────────────────────────────
+*.tsbuildinfo
+
+# ── macOS ─────────────────────────────────────────────────
+.DS_Store
+*.pem
+
+# ── Misc ──────────────────────────────────────────────────
+*.orig.*

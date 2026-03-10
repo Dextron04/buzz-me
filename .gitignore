@@ -1,44 +1,89 @@
-# Dependencies
+# ============================================================
+# BuzzMe – Root .gitignore
+# ============================================================
+
+# ── Node / npm ────────────────────────────────────────────
 node_modules/
 .pnp
 .pnp.js
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json   # keep committed per workspace preference; remove line to lock it
+*.tsbuildinfo
 
-# Build outputs
+# ── Build outputs ─────────────────────────────────────────
 dist/
 build/
-*.class
-*.apk
-*.aab
+out/
+web-build/
 
-# Environment
+# ── Environment variables ─────────────────────────────────
 .env
 .env.local
 .env.*.local
+# Keep the example as documentation
 !.env.example
 
-# Logs
-logs/
-*.log
-npm-debug.log*
+# ── Expo / React Native (mobile/) ─────────────────────────
+mobile/.expo/
+mobile/expo-env.d.ts
+mobile/.metro-health-check*
+# Expo-generated native folders (always regenerated via prebuild)
+mobile/android/
+mobile/ios/
+# Log files produced by running the dev server with nohup
+mobile/nohup.out
+nohup.out
 
-# OS
-.DS_Store
-Thumbs.db
-
-# Android
+# ── Android (Kotlin — android/) ───────────────────────────
+# Gradle build & cache
 android/.gradle/
+android/build/
+android/app/build/
 android/local.properties
 android/app/release/
-
-# IDE
+android/.kotlin/
+# IntelliJ / Android Studio
 .idea/
 *.iml
+*.hprof
+.cxx/
+# Bundle artifacts
+*.jsbundle
+# Signed release keys – never commit
+*.jks
+*.keystore
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# ── Java / Kotlin compiled output ─────────────────────────
+*.class
+*.apk
+*.aab
+*.dex
+
+# ── macOS ─────────────────────────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+
+# ── IDE & editors ─────────────────────────────────────────
 .vscode/
 *.swp
 *.swo
+*.orig.*
 
-# Test coverage
+# ── Logs ──────────────────────────────────────────────────
+logs/
+*.log
+
+# ── Test / coverage ───────────────────────────────────────
 coverage/
+.nyc_output/
 
-# Misc
+# ── Misc ──────────────────────────────────────────────────
 *.pem
