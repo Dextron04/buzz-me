@@ -18,8 +18,9 @@
     "android": {
       "package": "com.buzzme",
       "adaptiveIcon": {
-        "backgroundColor": "#0B0B0B",
-        "foregroundImage": "./assets/adaptive-icon.png"
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png",
+        "backgroundColor": "#0B0B0B"
       }
     },
     "web": {
