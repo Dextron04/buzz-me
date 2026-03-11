@@ -7,6 +7,7 @@ import {
     Easing,
 } from 'react-native';
 import { Colors, Typography } from '../theme';
+import * as Haptics from 'expo-haptics';
 
 const NUM_RINGS = 4;
 
@@ -33,6 +34,7 @@ export default function SplashScreen({ onFinish }: { onFinish: () => void }) {
         ringAnims.forEach((anim, i) => {
             const loop = () => {
                 anim.setValue(0);
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                 Animated.timing(anim, {
                     toValue: 1,
                     duration: 1800,

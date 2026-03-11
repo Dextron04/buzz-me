@@ -2,6 +2,6 @@ module.exports = function (api) {
     api.cache(true);
     return {
         presets: ['babel-preset-expo'],
-        plugins: ['react-native-reanimated/plugin'],
+        // react-native-reanimated v4 no longer requires its own babel plugin
     };
 };

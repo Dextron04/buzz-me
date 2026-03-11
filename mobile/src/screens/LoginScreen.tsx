@@ -13,11 +13,25 @@ import {
     TouchableWithoutFeedback,
     Keyboard,
 } from 'react-native';
+import { GestureDetector, Gesture } from 'react-native-gesture-handler';
+import * as Haptics from 'expo-haptics';
 import { Colors, Typography, Spacing, Radius } from '../theme';
+import { LoginForm } from '../components/LoginForm';
+import { RegisterForm } from '../components/RegisterForm';
 
-const { height: SCREEN_H } = Dimensions.get('window');
-const PANEL_HEIGHT = SCREEN_H * 0.62;
+const { height: SCREEN_H, width: SCREEN_W } = Dimensions.get('window');
+
+// Responsive sizing based on screen height
+const getResponsiveValue = (small: number, medium: number, large: number) => {
+    if (SCREEN_H < 700) return small;
+    if (SCREEN_H < 850) return medium;
+    return large;
+};
+
 const NUM_RINGS = 4;
+const LOGIN_PANEL_HEIGHT = Math.min(SCREEN_H * 0.65, 450);
+const REGISTER_PANEL_HEIGHT = Math.min(SCREEN_H * 0.85, 600);
+const DRAG_THRESHOLD = LOGIN_PANEL_HEIGHT * 0.4;
 
 interface LoginScreenProps {
     onLogin: () => void;
@@ -42,6 +56,7 @@ function PhoneRippleHero({ opacity, scale }: { opacity: Animated.Value; scale: A
         ringAnims.forEach((anim, i) => {
             const loop = () => {
                 anim.setValue(0);
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                 Animated.timing(anim, {
                     toValue: 1,
                     duration: 2100,
@@ -83,12 +98,17 @@ function PhoneRippleHero({ opacity, scale }: { opacity: Animated.Value; scale: A
 }
 
 const hero = StyleSheet.create({
-    wrap: { width: 200, height: 200, alignItems: 'center', justifyContent: 'center' },
+    wrap: {
+        width: getResponsiveValue(160, 200, 220),
+        height: getResponsiveValue(160, 200, 220),
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
     ring: { position: 'absolute', borderWidth: 1.5, borderColor: Colors.accent },
     phones: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
     phone: {
-        width: 48,
-        height: 84,
+        width: getResponsiveValue(42, 48, 54),
+        height: getResponsiveValue(74, 84, 94),
         borderRadius: 12,
         borderWidth: 3,
         borderColor: Colors.accent,
@@ -100,79 +120,11 @@ const hero = StyleSheet.create({
     },
 });
 
-// ─── Input field ─────────────────────────────────────────────────────────────
-function Field({
-    label, value, onChange, placeholder, secure, keyboardType,
-}: {
-    label: string;
-    value: string;
-    onChange: (v: string) => void;
-    placeholder?: string;
-    secure?: boolean;
-    keyboardType?: 'email-address' | 'default';
-}) {
-    const [focused, setFocused] = useState(false);
-    const borderAnim = useRef(new Animated.Value(0)).current;
 
-    const focus = () => {
-        setFocused(true);
-        Animated.timing(borderAnim, { toValue: 1, duration: 200, useNativeDriver: false }).start();
-    };
-    const blur = () => {
-        setFocused(false);
-        Animated.timing(borderAnim, { toValue: 0, duration: 200, useNativeDriver: false }).start();
-    };
 
-    const borderColor = borderAnim.interpolate({
-        inputRange: [0, 1],
-        outputRange: [Colors.cardBorder, Colors.accent],
-    });
 
-    return (
-        <View style={f.group}>
-            <Text style={f.label}>{label}</Text>
-            <Animated.View style={[f.box, { borderColor }]}>
-                <TextInput
-                    style={f.input}
-                    value={value}
-                    onChangeText={onChange}
-                    onFocus={focus}
-                    onBlur={blur}
-                    placeholder={placeholder}
-                    placeholderTextColor={Colors.textMuted}
-                    secureTextEntry={secure}
-                    keyboardType={keyboardType ?? 'default'}
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                />
-            </Animated.View>
-        </View>
-    );
-}
 
-const f = StyleSheet.create({
-    group: { marginBottom: 14 },
-    label: {
-        fontFamily: Typography.pixel,
-        fontSize: 10,
-        color: Colors.textSecondary,
-        letterSpacing: 1.5,
-        marginBottom: 8,
-    },
-    box: {
-        backgroundColor: Colors.surface,
-        borderRadius: Radius.md,
-        borderWidth: 1.5,
-        height: 52,
-        paddingHorizontal: 16,
-        justifyContent: 'center',
-    },
-    input: {
-        color: Colors.textPrimary,
-        fontFamily: Typography.body,
-        fontSize: 15,
-    },
-});
+
 
 // ─── Main screen ─────────────────────────────────────────────────────────────
 type Mode = 'welcome' | 'login' | 'register';
@@ -195,9 +147,11 @@ export default function LoginScreen({ onLogin, onRegister }: LoginScreenProps) {
     const btnsY = useRef(new Animated.Value(20)).current;
 
     // ── Form panel slide
-    const panelY = useRef(new Animated.Value(PANEL_HEIGHT)).current;
+    const panelY = useRef(new Animated.Value(SCREEN_H)).current;
     const panelOpacity = useRef(new Animated.Value(0)).current;
     const overlayOpacity = useRef(new Animated.Value(0)).current;
+    const dragStartY = useRef(0);
+    const isDragging = useRef(false);
 
     // ── Welcome content exit
     const welcomeOpacity = useRef(new Animated.Value(1)).current;
@@ -249,7 +203,7 @@ export default function LoginScreen({ onLogin, onRegister }: LoginScreenProps) {
         Keyboard.dismiss();
 
         Animated.parallel([
-            Animated.timing(panelY, { toValue: PANEL_HEIGHT, duration: 320, easing: Easing.in(Easing.quad), useNativeDriver: true }),
+            Animated.timing(panelY, { toValue: SCREEN_H, duration: 320, easing: Easing.in(Easing.quad), useNativeDriver: true }),
             Animated.timing(panelOpacity, { toValue: 0, duration: 250, useNativeDriver: true }),
             Animated.timing(overlayOpacity, { toValue: 0, duration: 280, useNativeDriver: true }),
             Animated.timing(welcomeOpacity, { toValue: 1, duration: 350, useNativeDriver: true }),
@@ -259,6 +213,49 @@ export default function LoginScreen({ onLogin, onRegister }: LoginScreenProps) {
 
     const pressIn = () => Animated.spring(btnScale, { toValue: 0.96, tension: 120, friction: 4, useNativeDriver: true }).start();
     const pressOut = () => Animated.spring(btnScale, { toValue: 1, tension: 120, friction: 4, useNativeDriver: true }).start();
+
+    // ── Drag gesture for panel ──
+    const panGesture = Gesture.Pan()
+        .enabled(mode !== 'welcome')
+        .runOnJS(true)
+        .onBegin(() => {
+            isDragging.current = true;
+            dragStartY.current = 0;
+        })
+        .onUpdate((event) => {
+            if (!isDragging.current) return;
+
+            // Only allow dragging down, not up
+            const newY = Math.max(0, event.translationY);
+
+            // Use timing for smooth updates during drag
+            Animated.timing(panelY, {
+                toValue: newY,
+                duration: 0,
+                useNativeDriver: true,
+            }).start();
+        })
+        .onEnd((event) => {
+            isDragging.current = false;
+            const dragDistance = event.translationY;
+            const velocity = event.velocityY;
+
+            // Close if dragged down beyond threshold or fast downward swipe
+            if (dragDistance > DRAG_THRESHOLD || velocity > 1000) {
+                closePanel();
+            } else {
+                // Snap back to open position
+                Animated.spring(panelY, {
+                    toValue: 0,
+                    tension: 58,
+                    friction: 11,
+                    useNativeDriver: true,
+                }).start();
+            }
+        })
+        .onFinalize(() => {
+            isDragging.current = false;
+        });
 
     return (
         <KeyboardAvoidingView style={s.root} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -305,15 +302,27 @@ export default function LoginScreen({ onLogin, onRegister }: LoginScreenProps) {
 
             {/* ── Slide-up form panel ── */}
             <Animated.View
+                onLayout={(e) => {
+                    // Update the height dynamically so it can start springing up
+                    // But we won't strictly enforce a static height style, we just use it for threshold checking
+                    const h = e.nativeEvent.layout.height;
+                    // Ensure panel starts offscreen down if wait for layout is needed
+                }}
                 style={[
                     s.panel,
-                    { transform: [{ translateY: panelY }], opacity: panelOpacity },
+                    { 
+                        transform: [{ translateY: panelY }], 
+                        opacity: panelOpacity,
+                    },
                 ]}
+                pointerEvents={mode === 'welcome' ? 'none' : 'auto'}
             >
                 {/* Drag handle */}
-                <TouchableOpacity onPress={closePanel} style={s.handleWrap} activeOpacity={0.7}>
-                    <View style={s.handle} />
-                </TouchableOpacity>
+                <GestureDetector gesture={panGesture}>
+                    <View style={s.handleWrap}>
+                        <View style={s.handle} />
+                    </View>
+                </GestureDetector>
 
                 {/* Panel header */}
                 <View style={s.panelHeader}>
@@ -327,54 +336,31 @@ export default function LoginScreen({ onLogin, onRegister }: LoginScreenProps) {
                     </Text>
                 </View>
 
-                {/* Fields */}
-                {mode === 'register' && (
-                    <Field label="NAME" value={name} onChange={setName} placeholder="Your name" />
-                )}
-                <Field
-                    label="EMAIL"
-                    value={email}
-                    onChange={setEmail}
-                    placeholder="you@example.com"
-                    keyboardType="email-address"
-                />
-                <Field
-                    label="PASSWORD"
-                    value={password}
-                    onChange={setPassword}
-                    placeholder="••••••••"
-                    secure
-                />
-                {mode === 'register' && (
-                    <Field
-                        label="CONFIRM PASSWORD"
-                        value={confirmPassword}
-                        onChange={setConfirmPassword}
-                        placeholder="••••••••"
-                        secure
+                {/* Fields and Submit using Components */}
+                {mode === 'login' ? (
+                    <LoginForm
+                        email={email} setEmail={setEmail}
+                        password={password} setPassword={setPassword}
+                        onSubmit={onLogin}
+                        btnScale={btnScale} pressIn={pressIn} pressOut={pressOut}
+                    />
+                ) : (
+                    <RegisterForm
+                        name={name} setName={setName}
+                        email={email} setEmail={setEmail}
+                        password={password} setPassword={setPassword}
+                        confirmPassword={confirmPassword} setConfirmPassword={setConfirmPassword}
+                        onSubmit={onRegister}
+                        btnScale={btnScale} pressIn={pressIn} pressOut={pressOut}
                     />
                 )}
-
-                {/* Submit */}
-                <Animated.View style={[s.submitWrap, { transform: [{ scale: btnScale }] }]}>
-                    <TouchableOpacity
-                        style={s.primaryBtn}
-                        onPress={mode === 'register' ? onRegister : onLogin}
-                        onPressIn={pressIn} onPressOut={pressOut}
-                        activeOpacity={1}
-                    >
-                        <Text style={s.primaryBtnText}>
-                            {mode === 'register' ? 'Create Account' : 'Sign In'}
-                        </Text>
-                    </TouchableOpacity>
-                </Animated.View>
 
                 {/* Switch mode */}
                 <TouchableOpacity
                     style={s.switchRow}
                     onPress={() => {
-                        closePanel();
-                        setTimeout(() => openPanel(mode === 'login' ? 'register' : 'login'), 380);
+                        const nextMode = mode === 'login' ? 'register' : 'login';
+                        openPanel(nextMode);
                     }}
                     activeOpacity={0.7}
                 >
@@ -402,40 +388,46 @@ const s = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        paddingHorizontal: 28,
-        paddingBottom: 40,
-        gap: 8,
+        paddingHorizontal: Math.max(SCREEN_W * 0.06, 24),
+        paddingBottom: getResponsiveValue(30, 40, 50),
+        gap: getResponsiveValue(6, 8, 10),
     },
     brand: {
         fontFamily: Typography.pixel,
-        fontSize: 22,
+        fontSize: getResponsiveValue(18, 22, 24),
         color: Colors.accent,
-        letterSpacing: 10,
-        marginBottom: 16,
+        letterSpacing: getResponsiveValue(8, 10, 12),
+        marginBottom: getResponsiveValue(12, 16, 20),
     },
-    body: { alignItems: 'center', marginTop: 8 },
+    body: { alignItems: 'center', marginTop: getResponsiveValue(6, 8, 10) },
     headline: {
         fontFamily: Typography.bodyBold,
-        fontSize: 42,
+        fontSize: getResponsiveValue(32, 42, 48),
         color: Colors.textPrimary,
         textAlign: 'center',
-        lineHeight: 48,
-        marginBottom: 12,
+        lineHeight: getResponsiveValue(38, 48, 56),
+        marginBottom: getResponsiveValue(10, 12, 14),
     },
     sub: {
         fontFamily: Typography.body,
-        fontSize: 14,
+        fontSize: getResponsiveValue(13, 14, 15),
         color: Colors.textSecondary,
         textAlign: 'center',
-        lineHeight: 22,
+        lineHeight: getResponsiveValue(20, 22, 24),
+        maxWidth: Math.min(SCREEN_W * 0.85, 500),
     },
 
     // CTAs
-    ctaWrap: { width: '100%', gap: 12, marginTop: 32 },
+    ctaWrap: {
+        width: '100%',
+        maxWidth: 500,
+        gap: getResponsiveValue(10, 12, 14),
+        marginTop: getResponsiveValue(24, 32, 40)
+    },
     primaryBtn: {
         backgroundColor: Colors.accent,
         borderRadius: Radius.full,
-        height: 58,
+        height: getResponsiveValue(52, 58, 62),
         alignItems: 'center',
         justifyContent: 'center',
         shadowColor: Colors.accent,
@@ -446,12 +438,12 @@ const s = StyleSheet.create({
     },
     primaryBtnText: {
         fontFamily: Typography.bodyBold,
-        fontSize: 16,
+        fontSize: getResponsiveValue(15, 16, 17),
         color: Colors.background,
     },
     secondaryBtn: {
         borderRadius: Radius.full,
-        height: 58,
+        height: getResponsiveValue(52, 58, 62),
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 1.5,
@@ -459,7 +451,7 @@ const s = StyleSheet.create({
     },
     secondaryBtnText: {
         fontFamily: Typography.bodyBold,
-        fontSize: 16,
+        fontSize: getResponsiveValue(15, 16, 17),
         color: Colors.textPrimary,
     },
 
@@ -475,42 +467,41 @@ const s = StyleSheet.create({
         bottom: 0,
         left: 0,
         right: 0,
-        height: PANEL_HEIGHT,
         backgroundColor: Colors.surface,
-        borderTopLeftRadius: 28,
-        borderTopRightRadius: 28,
+        borderTopLeftRadius: getResponsiveValue(24, 28, 32),
+        borderTopRightRadius: getResponsiveValue(24, 28, 32),
         borderTopWidth: 1,
         borderColor: Colors.cardBorder,
-        paddingHorizontal: 24,
-        paddingBottom: 32,
+        paddingHorizontal: Math.max(SCREEN_W * 0.06, 20),
+        paddingBottom: getResponsiveValue(40, 60, 80),
     },
     handleWrap: {
         alignItems: 'center',
-        paddingVertical: 16,
+        paddingVertical: getResponsiveValue(14, 16, 18),
     },
     handle: {
-        width: 38,
+        width: getResponsiveValue(34, 38, 42),
         height: 4,
         borderRadius: 2,
         backgroundColor: Colors.cardBorder,
     },
-    panelHeader: { marginBottom: 20 },
+    panelHeader: { marginBottom: getResponsiveValue(16, 20, 24) },
     panelTitle: {
         fontFamily: Typography.bodyBold,
-        fontSize: 26,
+        fontSize: getResponsiveValue(22, 26, 30),
         color: Colors.textPrimary,
-        marginBottom: 6,
+        marginBottom: getResponsiveValue(4, 6, 8),
     },
     panelSub: {
         fontFamily: Typography.body,
-        fontSize: 14,
+        fontSize: getResponsiveValue(13, 14, 15),
         color: Colors.textSecondary,
     },
-    submitWrap: { marginTop: 8 },
-    switchRow: { alignItems: 'center', marginTop: 20 },
+    submitWrap: { marginTop: getResponsiveValue(6, 8, 10) },
+    switchRow: { alignItems: 'center', marginTop: getResponsiveValue(16, 20, 24) },
     switchText: {
         fontFamily: Typography.body,
-        fontSize: 14,
+        fontSize: getResponsiveValue(13, 14, 15),
         color: Colors.textSecondary,
     },
     switchLink: {
