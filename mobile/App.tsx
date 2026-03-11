@@ -2,12 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
-import {
-  SpaceGrotesk_400Regular,
-  SpaceGrotesk_500Medium,
-  SpaceGrotesk_600SemiBold,
-  SpaceGrotesk_700Bold,
-} from '@expo-google-fonts/space-grotesk';
+
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import SplashScreen from './src/screens/SplashScreen';
 import AppNavigator from './src/navigation/AppNavigator';
@@ -17,10 +12,7 @@ export default function App() {
   const [showSplash, setShowSplash] = useState(true);
 
   const [fontsLoaded] = useFonts({
-    SpaceGrotesk_400Regular,
-    SpaceGrotesk_500Medium,
-    SpaceGrotesk_600SemiBold,
-    SpaceGrotesk_700Bold,
+    GeistPixel: require('./assets/fonts/GeistPixel-Square.ttf'),
   });
 
   const handleSplashFinish = useCallback(() => {

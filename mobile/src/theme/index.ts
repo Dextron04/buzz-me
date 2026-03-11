@@ -26,12 +26,12 @@ export const Colors = {
 };
 
 export const Typography = {
-    // Space Grotesk font family
-    pixel: 'SpaceGrotesk_700Bold' as const,
-    body: 'SpaceGrotesk_400Regular' as const,
-    bodyMedium: 'SpaceGrotesk_500Medium' as const,
-    bodySemibold: 'SpaceGrotesk_600SemiBold' as const,
-    bodyBold: 'SpaceGrotesk_700Bold' as const,
+    // Primary pixel font family
+    pixel: 'GeistPixel',
+    body: 'GeistPixel',
+    bodyMedium: 'GeistPixel',
+    bodySemibold: 'GeistPixel',
+    bodyBold: 'GeistPixel',
 };
 
 export const Spacing = {
