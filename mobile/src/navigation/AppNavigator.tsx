@@ -5,6 +5,7 @@ import { Colors } from '../theme';
 
 // Screens
 import LoginScreen from '../screens/LoginScreen';
+import BuzzScreen from '../screens/BuzzScreen';
 
 export type RootStackParamList = {
     Login: undefined;
@@ -26,13 +27,15 @@ export default function AppNavigator() {
             >
                 <Stack.Screen
                     name="Login"
-                    children={(props) => (
+                >
+                    {(props) => (
                         <LoginScreen
-                            onLogin={() => console.log('login')}
-                            onRegister={() => console.log('register')}
+                            onLogin={() => props.navigation.navigate('Home')}
+                            onRegister={() => props.navigation.navigate('Home')}
                         />
                     )}
-                />
+                </Stack.Screen>
+                <Stack.Screen name="Home" component={BuzzScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );
