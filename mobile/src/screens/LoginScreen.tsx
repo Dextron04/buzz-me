@@ -158,20 +158,20 @@ export default function LoginScreen({ onLogin, onRegister }: LoginScreenProps) {
     useEffect(() => {
         Animated.stagger(110, [
             Animated.parallel([
-                Animated.timing(headerAnim, { toValue: 1, duration: 480, useNativeDriver: true }),
-                Animated.timing(headerY, { toValue: 0, duration: 480, easing: Easing.out(Easing.quad), useNativeDriver: true }),
+                Animated.timing(headerAnim, { toValue: 1, duration: 350, useNativeDriver: true }),
+                Animated.timing(headerY, { toValue: 0, duration: 350, easing: Easing.out(Easing.quad), useNativeDriver: true }),
             ]),
             Animated.parallel([
-                Animated.timing(heroOpacity, { toValue: 1, duration: 550, useNativeDriver: true }),
+                Animated.timing(heroOpacity, { toValue: 1, duration: 400, useNativeDriver: true }),
                 Animated.spring(heroScale, { toValue: 1, tension: 55, friction: 8, useNativeDriver: true }),
             ]),
             Animated.parallel([
-                Animated.timing(bodyOpacity, { toValue: 1, duration: 450, useNativeDriver: true }),
-                Animated.timing(bodyY, { toValue: 0, duration: 450, easing: Easing.out(Easing.quad), useNativeDriver: true }),
+                Animated.timing(bodyOpacity, { toValue: 1, duration: 350, useNativeDriver: true }),
+                Animated.timing(bodyY, { toValue: 0, duration: 350, easing: Easing.out(Easing.quad), useNativeDriver: true }),
             ]),
             Animated.parallel([
-                Animated.timing(btnsOpacity, { toValue: 1, duration: 400, useNativeDriver: true }),
-                Animated.timing(btnsY, { toValue: 0, duration: 400, easing: Easing.out(Easing.quad), useNativeDriver: true }),
+                Animated.timing(btnsOpacity, { toValue: 1, duration: 300, useNativeDriver: true }),
+                Animated.timing(btnsY, { toValue: 0, duration: 300, easing: Easing.out(Easing.quad), useNativeDriver: true }),
             ]),
         ]).start();
     }, []);
@@ -181,15 +181,15 @@ export default function LoginScreen({ onLogin, onRegister }: LoginScreenProps) {
 
         // Slide welcome content up + fade
         Animated.parallel([
-            Animated.timing(welcomeOpacity, { toValue: 0, duration: 300, useNativeDriver: true }),
-            Animated.timing(welcomeY, { toValue: -40, duration: 300, easing: Easing.in(Easing.quad), useNativeDriver: true }),
-            Animated.timing(overlayOpacity, { toValue: 1, duration: 300, useNativeDriver: true }),
+            Animated.timing(welcomeOpacity, { toValue: 0, duration: 200, useNativeDriver: true }),
+            Animated.timing(welcomeY, { toValue: -40, duration: 200, easing: Easing.in(Easing.quad), useNativeDriver: true }),
+            Animated.timing(overlayOpacity, { toValue: 1, duration: 200, useNativeDriver: true }),
         ]).start();
 
         // Panel springs up
         Animated.parallel([
             Animated.spring(panelY, { toValue: 0, tension: 58, friction: 11, useNativeDriver: true }),
-            Animated.timing(panelOpacity, { toValue: 1, duration: 250, useNativeDriver: true }),
+            Animated.timing(panelOpacity, { toValue: 1, duration: 180, useNativeDriver: true }),
         ]).start();
     };
 
@@ -395,15 +395,15 @@ const s = StyleSheet.create({
     },
     body: { alignItems: 'center', marginTop: getResponsiveValue(6, 8, 10) },
     headline: {
-        fontFamily: Typography.bodyBold,
+        fontFamily: Typography.pixel,
         fontSize: getResponsiveValue(32, 42, 48),
         color: Colors.textPrimary,
         textAlign: 'center',
-        lineHeight: getResponsiveValue(38, 48, 56),
+        lineHeight: getResponsiveValue(46, 56, 64),
         marginBottom: getResponsiveValue(10, 12, 14),
     },
     sub: {
-        fontFamily: Typography.body,
+        fontFamily: Typography.pixel,
         fontSize: getResponsiveValue(13, 14, 15),
         color: Colors.textSecondary,
         textAlign: 'center',
@@ -431,7 +431,7 @@ const s = StyleSheet.create({
         elevation: 8,
     },
     primaryBtnText: {
-        fontFamily: Typography.bodyBold,
+        fontFamily: Typography.pixel,
         fontSize: getResponsiveValue(15, 16, 17),
         color: Colors.background,
     },
@@ -444,7 +444,7 @@ const s = StyleSheet.create({
         borderColor: Colors.cardBorder,
     },
     secondaryBtnText: {
-        fontFamily: Typography.bodyBold,
+        fontFamily: Typography.pixel,
         fontSize: getResponsiveValue(15, 16, 17),
         color: Colors.textPrimary,
     },
@@ -481,25 +481,25 @@ const s = StyleSheet.create({
     },
     panelHeader: { marginBottom: getResponsiveValue(16, 20, 24) },
     panelTitle: {
-        fontFamily: Typography.bodyBold,
+        fontFamily: Typography.pixel,
         fontSize: getResponsiveValue(22, 26, 30),
         color: Colors.textPrimary,
         marginBottom: getResponsiveValue(4, 6, 8),
     },
     panelSub: {
-        fontFamily: Typography.body,
+        fontFamily: Typography.pixel,
         fontSize: getResponsiveValue(13, 14, 15),
         color: Colors.textSecondary,
     },
     submitWrap: { marginTop: getResponsiveValue(6, 8, 10) },
     switchRow: { alignItems: 'center', marginTop: getResponsiveValue(16, 20, 24) },
     switchText: {
-        fontFamily: Typography.body,
+        fontFamily: Typography.pixel,
         fontSize: getResponsiveValue(13, 14, 15),
         color: Colors.textSecondary,
     },
     switchLink: {
-        fontFamily: Typography.bodySemibold,
+        fontFamily: Typography.pixel,
         color: Colors.accent,
     },
 });

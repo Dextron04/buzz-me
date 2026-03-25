@@ -70,7 +70,7 @@ const s = StyleSheet.create({
         elevation: 8,
     },
     primaryBtnText: {
-        fontFamily: Typography.bodyBold,
+        fontFamily: Typography.pixel,
         fontSize: getResponsiveValue(15, 16, 17),
         color: Colors.background,
     },
