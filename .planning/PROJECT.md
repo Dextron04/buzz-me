@@ -44,19 +44,18 @@ A stunning, cohesive mobile UI that feels alive — with animations, haptics, th
 - ✓ Design tokens: `Colors`, `Typography`, `Spacing`, `Radius` (`src/theme/index.ts`) — existing
 - ✓ `SplashScreen` — animated pixel logo assembly + ripple rings — existing
 - ✓ `LoginScreen` — welcome panel + slide-up login/register form — existing (needs polish)
-- ✓ `BuzzScreen` — BUZZ button, ripple animations, idle rings, pill nav — existing (mock data)
 - ✓ `AppNavigator` — Login → Home stack — existing
+- ✓ **Phase 01:** `BuzzScreen` — BUZZ button, ripple animations, idle rings, responsive pill nav UI
+- ✓ **Phase 01:** HistoryScreen implementation
+- ✓ **Phase 01:** Navigation wiring (TabNavigator setup)
+- ✓ **Phase 01:** Shared responsive utility extraction
+- ✓ **Phase 01:** Theme cleanup (`surface` color definition)
 
 ### Active (To Build This Milestone)
 
-- [ ] **HistoryScreen** — Scrollable buzz log with sent/received entries, weekly stats, timestamps; matches Stitch design
 - [ ] **SettingsScreen** — Partner section, vibration pattern selector, intensity slider, connection toggle, account section; matches Stitch design
 - [ ] **PairingScreen** — "Your Code" display + "Enter Partner's Code" input; code sharing UI
-- [ ] **Navigation wiring** — Add History, Settings, Pairing to the navigator; bottom tab nav (Home / History / Settings) live and functional
-- [ ] **BuzzScreen polish** — Replace hardcoded `TEST_USER` with contextual mock; align to Stitch home screen design (partner name, online status, today's stats badge)
 - [ ] **LoginScreen polish** — Ensure full design fidelity to Stitch welcome screen aesthetic
-- [ ] **Shared responsive util** — Extract `getResponsiveValue` to `src/utils/responsive.ts`
-- [ ] **Theme cleanup** — Fix hardcoded `#161616` in `BuzzScreen`, add body font variant
 
 ### Out of Scope
 
@@ -91,4 +90,4 @@ This document evolves at phase transitions and milestone boundaries.
 2. Check — backend wiring ready?
 
 ---
-*Last updated: 2026-03-24 after initialization*
+*Last updated: 2026-03-24 after Phase 01 completion*
