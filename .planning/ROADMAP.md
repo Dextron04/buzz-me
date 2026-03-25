@@ -6,7 +6,7 @@ A complete, navigable frontend with all Stitch-designed screens implemented in R
 
 ---
 
-## Phase 1 — Core Screens & Navigation
+## Phase 1: Core Screens & Navigation
 
 **Goal**: Deliver the three primary screens (Home polish, History, Navigation wiring) + shared utility. This makes the app navigable end-to-end.
 
@@ -14,20 +14,20 @@ A complete, navigable frontend with all Stitch-designed screens implemented in R
 
 ### Plans
 
-#### 01-01 — Shared Foundation
+#### 01-01: Shared Foundation
 - Extract `getResponsiveValue` to `mobile/src/utils/responsive.ts` (REQ-006)
 - Update all 4 existing files to import from new util
 - Fix hardcoded `#161616` in `BuzzScreen` → `Colors.surface`
 - Add `MOCK_USER` constant to replace `TEST_USER` in `BuzzScreen`
 - Update `BuzzScreen` header + stats badge to match Stitch Home design (REQ-005)
 
-#### 01-02 — History Screen
+#### 01-02: History Screen
 - Create `mobile/src/screens/HistoryScreen.tsx` (REQ-001)
 - Animated entry, buzz list items (sent/received), week section header + stat
 - Bottom pill nav present with correct active state
 - Mock data: 10–15 sample buzz entries
 
-#### 01-03 — Navigation Wiring
+#### 01-03: Navigation Wiring
 - Refactor `AppNavigator.tsx` to support tab-level navigation (REQ-004)
 - Move bottom pill nav OUT of `BuzzScreen` into a shared `TabNavigator` wrapper
 - Wire: Home → `BuzzScreen`, History → `HistoryScreen`
@@ -36,7 +36,7 @@ A complete, navigable frontend with all Stitch-designed screens implemented in R
 
 ---
 
-## Phase 2 — Settings, Pairing & Login Polish
+## Phase 2: Settings, Pairing & Login Polish
 
 **Goal**: Complete the app with Settings, Pairing screens and refine the Login/Welcome screen to match the Stitch design.
 
