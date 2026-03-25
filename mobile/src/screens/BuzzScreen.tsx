@@ -149,6 +149,13 @@ export default function BuzzScreen() {
                     </TouchableOpacity>
                 </View>
 
+                {/* Today's Stats Badge */}
+                <View style={s.statsBadge}>
+                    <Text style={s.statsText}>
+                        {MOCK_USER.todaySent} Sent · {MOCK_USER.todayReceived} Recv
+                    </Text>
+                </View>
+
                 {/* Main Interaction Area */}
                 <View style={s.main}>
                     <View style={s.interactionCardLarge}>
@@ -380,6 +387,23 @@ const s = StyleSheet.create({
         borderRadius: 2,
         backgroundColor: Colors.accent,
         marginTop: 6,
+    },
+    statsBadge: {
+        alignSelf: 'center',
+        paddingHorizontal: 16,
+        paddingVertical: 5,
+        marginBottom: 8,
+        borderRadius: Radius.full,
+        backgroundColor: 'rgba(225,255,1,0.07)',
+        borderWidth: 1,
+        borderColor: 'rgba(225,255,1,0.2)',
+    },
+    statsText: {
+        fontFamily: Typography.pixel,
+        fontSize: 11,
+        color: Colors.accent,
+        letterSpacing: 1,
+        opacity: 0.85,
     },
 });
 
