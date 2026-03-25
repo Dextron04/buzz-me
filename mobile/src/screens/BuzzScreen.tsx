@@ -13,7 +13,6 @@ import {
 import * as Haptics from 'expo-haptics';
 import { Colors, Typography, Spacing, Radius } from '../theme';
 import { Ionicons } from '@expo/vector-icons';
-import { BlurView } from 'expo-blur';
 
 const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
 
@@ -199,22 +198,6 @@ export default function BuzzScreen() {
                     </View>
                 </View>
 
-                {/* Floating Nav */}
-                <View style={s.navOuter}>
-                    <BlurView intensity={30} tint="dark" style={s.pillNav}>
-                        <TouchableOpacity style={s.navBtn} activeOpacity={0.7}>
-                            <Ionicons name="home" size={24} color={Colors.accent} />
-                            <View style={s.activeIndicator} />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={s.navBtn} activeOpacity={0.7}>
-                            <Ionicons name="time-outline" size={24} color={Colors.textSecondary} />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={s.navBtn} activeOpacity={0.7}>
-                            <Ionicons name="settings-outline" size={24} color={Colors.textSecondary} />
-                        </TouchableOpacity>
-                    </BlurView>
-                </View>
-
             </SafeAreaView>
         </View>
     );
@@ -359,34 +342,6 @@ const s = StyleSheet.create({
         textAlign: 'center',
         paddingHorizontal: Spacing.xl,
         letterSpacing: 0.5,
-    },
-    navOuter: {
-        position: 'absolute',
-        bottom: 50,
-        left: 0,
-        right: 0,
-        alignItems: 'center',
-    },
-    pillNav: {
-        flexDirection: 'row',
-        borderRadius: 32,
-        paddingHorizontal: 28,
-        paddingVertical: 14,
-        gap: 40,
-        borderWidth: 1,
-        borderColor: 'rgba(255, 255, 255, 0.1)',
-        overflow: 'hidden',
-    },
-    navBtn: {
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    activeIndicator: {
-        width: 4,
-        height: 4,
-        borderRadius: 2,
-        backgroundColor: Colors.accent,
-        marginTop: 6,
     },
     statsBadge: {
         alignSelf: 'center',

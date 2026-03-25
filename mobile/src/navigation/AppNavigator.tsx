@@ -3,14 +3,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Colors } from '../theme';
 
-// Screens
+// Screens & Navigators
 import LoginScreen from '../screens/LoginScreen';
-import BuzzScreen from '../screens/BuzzScreen';
+import { TabNavigator } from './TabNavigator';
 
 export type RootStackParamList = {
     Login: undefined;
-    Register: undefined;
-    Home: undefined;
+    Tabs: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -25,17 +24,15 @@ export default function AppNavigator() {
                     animation: 'fade_from_bottom',
                 }}
             >
-                <Stack.Screen
-                    name="Login"
-                >
+                <Stack.Screen name="Login">
                     {(props) => (
                         <LoginScreen
-                            onLogin={() => props.navigation.navigate('Home')}
-                            onRegister={() => props.navigation.navigate('Home')}
+                            onLogin={() => props.navigation.navigate('Tabs')}
+                            onRegister={() => props.navigation.navigate('Tabs')}
                         />
                     )}
                 </Stack.Screen>
-                <Stack.Screen name="Home" component={BuzzScreen} />
+                <Stack.Screen name="Tabs" component={TabNavigator} />
             </Stack.Navigator>
         </NavigationContainer>
     );
