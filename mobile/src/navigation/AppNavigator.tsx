@@ -5,11 +5,13 @@ import { Colors } from '../theme';
 
 // Screens & Navigators
 import LoginScreen from '../screens/LoginScreen';
+import PairingScreen from '../screens/PairingScreen';
 import { TabNavigator } from './TabNavigator';
 
 export type RootStackParamList = {
     Login: undefined;
     Tabs: undefined;
+    Pair: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -33,6 +35,7 @@ export default function AppNavigator() {
                     )}
                 </Stack.Screen>
                 <Stack.Screen name="Tabs" component={TabNavigator} />
+                <Stack.Screen name="Pair" component={PairingScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );

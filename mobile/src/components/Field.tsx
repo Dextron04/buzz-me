@@ -5,7 +5,7 @@ import { Colors, Typography, Radius } from '../theme';
 import { getResponsiveValue } from '../utils/responsive';
 
 export function Field({
-    label, value, onChange, placeholder, secure, keyboardType,
+    label, value, onChange, placeholder, secure, keyboardType, autoCapitalize
 }: {
     label: string;
     value: string;
@@ -13,6 +13,7 @@ export function Field({
     placeholder?: string;
     secure?: boolean;
     keyboardType?: 'email-address' | 'default';
+    autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
 }) {
     const [focused, setFocused] = useState(false);
     const borderAnim = useRef(new Animated.Value(0)).current;
@@ -45,7 +46,7 @@ export function Field({
                     placeholderTextColor={Colors.textMuted}
                     secureTextEntry={secure}
                     keyboardType={keyboardType ?? 'default'}
-                    autoCapitalize="none"
+                    autoCapitalize={autoCapitalize ?? 'none'}
                     autoCorrect={false}
                 />
             </Animated.View>
