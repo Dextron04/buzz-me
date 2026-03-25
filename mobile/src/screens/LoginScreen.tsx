@@ -6,28 +6,22 @@ import {
     Animated,
     Easing,
     TouchableOpacity,
-    Dimensions,
     Platform,
     KeyboardAvoidingView,
     TextInput,
     TouchableWithoutFeedback,
     Keyboard,
+    Dimensions,
 } from 'react-native';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 import * as Haptics from 'expo-haptics';
 import { Colors, Typography, Spacing, Radius } from '../theme';
+import { getResponsiveValue, SCREEN_H } from '../utils/responsive';
 import { LoginForm } from '../components/LoginForm';
 import { RegisterForm } from '../components/RegisterForm';
 
-const { height: SCREEN_H, width: SCREEN_W } = Dimensions.get('window');
 
-// Responsive sizing based on screen height
-const getResponsiveValue = (small: number, medium: number, large: number) => {
-    if (SCREEN_H < 700) return small;
-    if (SCREEN_H < 850) return medium;
-    return large;
-};
-
+const { width: SCREEN_W } = Dimensions.get('window');
 const NUM_RINGS = 4;
 const LOGIN_PANEL_HEIGHT = Math.min(SCREEN_H * 0.65, 450);
 const REGISTER_PANEL_HEIGHT = Math.min(SCREEN_H * 0.85, 600);

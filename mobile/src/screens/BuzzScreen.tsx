@@ -17,9 +17,12 @@ import { BlurView } from 'expo-blur';
 
 const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
 
-const TEST_USER = {
-    name: 'Alex',
-    partner: 'Sam',
+const MOCK_USER = {
+    name: 'You',
+    partner: 'Sarah',
+    partnerOnline: true,
+    todaySent: 12,
+    todayReceived: 8,
 };
 
 // ─── Idle Concentric Ring Component ─────────────────────────────────────────
@@ -136,12 +139,12 @@ export default function BuzzScreen() {
                         <Text style={s.brandTitle}>BUZZME</Text>
                         <View style={s.statusRow}>
                             <View style={s.onlineDot} />
-                            <Text style={s.statusText}>Connected to {TEST_USER.partner}</Text>
+                            <Text style={s.statusText}>Connected to {MOCK_USER.partner}</Text>
                         </View>
                     </View>
                     <TouchableOpacity style={s.avatarCircle} activeOpacity={0.7}>
                         <View style={s.avatarInner}>
-                            <Text style={s.initials}>{TEST_USER.name[0]}</Text>
+                            <Text style={s.initials}>{MOCK_USER.name[0]}</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -184,7 +187,7 @@ export default function BuzzScreen() {
 
                         {/* Absolute Hint Text */}
                         <View style={s.hintContainer}>
-                            <Text style={s.hintTextLarge}>Tap to buzz {TEST_USER.partner}</Text>
+                            <Text style={s.hintTextLarge}>Tap to buzz {MOCK_USER.partner}</Text>
                         </View>
                     </View>
                 </View>
@@ -279,7 +282,7 @@ const s = StyleSheet.create({
         width: '100%',
         maxWidth: 400,
         height: SCREEN_H * 0.58,
-        backgroundColor: '#161616',
+        backgroundColor: Colors.surface,
         borderRadius: 48,
         borderWidth: 1,
         borderColor: 'rgba(255, 255, 255, 0.05)',

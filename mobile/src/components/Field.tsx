@@ -1,14 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, TextInput, Animated, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, TextInput, Animated, StyleSheet } from 'react-native';
 import { Colors, Typography, Radius } from '../theme';
 
-const { height: SCREEN_H } = Dimensions.get('window');
-
-const getResponsiveValue = (small: number, medium: number, large: number) => {
-    if (SCREEN_H < 700) return small;
-    if (SCREEN_H < 850) return medium;
-    return large;
-};
+import { getResponsiveValue } from '../utils/responsive';
 
 export function Field({
     label, value, onChange, placeholder, secure, keyboardType,
